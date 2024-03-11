@@ -1,0 +1,636 @@
+connectivity_train: &connectivity_train
+  min_nodes: [2, 20, 40, 60, 80]
+  max_nodes: [20, 40, 60, 80, 100]
+  max_edges: [500, 500, 500, 500, 500]
+  min_ratio: [0.2, 0.08, 0.04, 0.02, 0.02]
+  max_ratio: [0.6, 0.1, 0.06, 0.04, 0.03]
+  weight: [False, False, False, False, False]
+  directed: [False, False, False, False, False]
+  samples_needed: [1600, 500, 300, 300, 300]
+  prompt: "Determine whether two nodes are connected in an undirected graph. 
+  In an undirected graph, (i,j) means that node i and node j are connected with an undirected edge.
+  Given a graph and a pair of nodes, you need to output Yes or No, indicating whether the node i and node j are connected. 
+  Q: The nodes are numbered from {} to {}, and the edges are: {}. Is there a path between node {} and node {}?"
+  answer: "### {}"
+  store_path: "../datasets/train_set/connectivity_train.json"
+  GPT_prompt: "Determine whether two nodes are connected in an undirected graph. 
+  In an undirected graph, (i,j) means that node i and node j are connected with an undirected edge.
+  Given a graph and a question containing a pair of nodes, you need to output Yes or No, indicating whether the node i and node j are connected. Your output first contains your reasoning process and then begin with '###' to give your final answer, i.e., '### Yes' or '### No'. Let's think step by step.
+  I will give you some demonstrations for your better understanding. {} Q: The nodes are numbered from {} to {}, and the edges are: {}. Is there a path between node {} and node {}?"
+
+cycle_train: &cycle_train
+  min_nodes: [2, 20, 40, 60, 80]
+  max_nodes: [20, 40, 60, 80, 100]
+  max_edges: [500, 500, 500, 500, 500]
+  min_ratio: [0.4, 0.15, 0.1, 0.06, 0.05]
+  max_ratio: [0.6, 0.2, 0.12, 0.08, 0.07]
+  weight: [False, False, False, False, False]
+  directed: [False, False, False, False, False]
+  samples_needed: [1600, 500, 300, 300, 300]
+  prompt: "Determine whether or not there is a cycle in an undirected graph. 
+  In an undirected graph, (i,j) means that node i and node j are connected with an undirected edge. 
+  Given a graph, you need to output Yes or No, indicating whether there is a cycle in the graph.
+  Q: The nodes are numbered from {} to {}, and the edges are: {}. Is there a cycle in this graph?" 
+  answer: "### {}"
+  store_path: "../datasets/train_set/cycle_train.json"
+  GPT_prompt: " In an undirected graph, (i,j) means that there is an undirected edge between node i and node j. Given a graph, you need to determine if a cycle exists. 
+  Your output first contains your reasoning process and then begin with '###' to give your final answer, i.e., '### Yes' or '### No'. Let's think step by step. 
+  I will provide some examples for your better understanding.
+  {}  Q: The nodes are numbered from {} to {}, and the edges are: {}. Does the graph contain a cycle?"
+
+shortest_train: &shortest_train
+  min_nodes: [2, 20, 40, 60, 80]
+  max_nodes: [20, 40, 60, 80, 100]
+  max_edges: [500, 500, 500, 500, 500]
+  min_ratio: [0.2, 0.15, 0.1, 0.06, 0.05]
+  max_ratio: [0.5, 0.2, 0.12, 0.08, 0.07]
+  weight: [True, True, True, True, True]
+  directed: [False, False, False, False, False]
+  samples_needed: [1600, 500, 300, 300, 300]
+  prompt: "Find the shortest path between two nodes in an undirected graph.
+  In an undirected graph, (i,j,k) means that node i and node j are connected with an undirected edge with weight k. 
+  Given a graph and a pair of nodes, you need to output the shortest path between the two nodes.
+  Q: The nodes are numbered from {} to {}, and the edges are: {}. Give the weight of the shortest path from node {} to node {}."
+  answer: "### {}"
+  store_path: "../datasets/train_set/shortest_train.json"
+  GPT_prompt: "Find the shortest path between two nodes in an undirected graph.
+  In an undirected graph, (i,j,k) means that node i and node j are connected with an undirected edge with weight k.
+  Given a graph and a pair of nodes, you need to output the shortest path between the two nodes.
+  Your output first contains your reasoning process and then begin with '###' to give your final answer, i.e., '### 1' or '### 2'. Let's think step by step.
+  I will provide some examples for your better understanding.
+  {} Q: The nodes are numbered from {} to {}, and the edges are: {}. Give the weight of the shortest path from node {} to node {}. Output the total weight of the path. Begin with '###' to give your final conclusion."
+
+bipartite_train: &bipartite_train
+  min_nodes: [2, 20, 40, 60, 80]
+  max_nodes: [20, 40, 60, 80, 100]
+  max_edges: [500, 500, 500, 500, 500]
+  min_ratio: [0.3, 0.15, 0.1, 0.06, 0.05]
+  max_ratio: [0.7, 0.2, 0.12, 0.08, 0.07]
+  weight: [False, False, False, False, False]
+  directed: [True, True, True, True, True]
+  samples_needed: [1600, 500, 300, 300, 300]
+  prompt: "Determine whether or not a graph is bipartite. 
+  In a directed graph, (i->j) means that node i and node j are connected with an directed edge from node i to node j.
+  Given a graph, you need to output Yes or No, indicating whether the graph is bipartite. 
+  Q: The nodes are numbered from {} to {}, and the edges are: {}. Is this graph bipartite?"
+  answer: "### {}"
+  store_path: "../datasets/train_set/bipartite_train.json"
+  GPT_prompt: "Determine whether or not a graph is bipartite.
+  In a directed graph, (i->j) means that node i and node j are connected with an directed edge from node i to node j.
+  Given a graph, you need to output Yes or No, indicating whether the graph is bipartite.
+  Your output first contains your reasoning process and then begin with '###' to give your final answer, i.e., '### Yes' or '### No'. Let's think step by step.
+  I will provide some examples for your better understanding.
+  {} Q: The nodes are numbered from {} to {}, and the edges are: {}. Is this graph bipartite?"
+
+diameter_train: &diameter_train
+  min_nodes: [2, 10, 40, 60, 80]
+  max_nodes: [10, 40, 60, 80, 100]
+  max_edges: [500, 500, 500, 500, 500]
+  min_ratio: [0.3, 0.08, 0.08, 0.06, 0.05]
+  max_ratio: [0.5, 0.2, 0.15, 0.1, 0.07]
+  weight: [True, True, True, True, True]
+  directed: [False, False, False, False, False]
+  samples_needed: [1600, 500, 300, 300, 300]
+  prompt: "Find the diameter of an undirected graph. 
+  In an undirected graph, (i,j,k) means that node i and node j are connected with an undirected edge with weight k. 
+  Given a graph, you need to output the diameter of the graph.
+  Q: The nodes are numbered from {} to {}, and the edges are: {}. What is the diameter of this graph?"
+  answer: "### {}"
+  store_path: "../datasets/train_set/diameter_train.json"
+  GPT_prompt: "Find the diameter of an undirected graph.
+  In an undirected graph, (i,j,k) means that node i and node j are connected with an undirected edge with weight k.
+  Given a graph, you need to output the diameter of the graph.
+  Your output first contains your reasoning process and then begin with '###' to give your final answer, i.e., '### 1' or '### 2'. Let's think step by step.
+  I will provide some examples for your better understanding.
+  {} Q: The nodes are numbered from {} to {}, and the edges are: {}. What is the diameter of this graph? Output the diameter. Begin with '###' to give your final conclusion."
+
+flow_train: &flow_train
+  min_nodes: [2, 20, 40, 60, 80]
+  max_nodes: [20, 40, 60, 80, 100]
+  max_edges: [500, 500, 500, 500, 500]
+  min_ratio: [0.2, 0.15, 0.1, 0.06, 0.05]
+  max_ratio: [0.5, 0.2, 0.12, 0.08, 0.07]
+  weight: [True, True, True, True, True]
+  directed: [True, True, True, True, True]
+  samples_needed: [1600, 500, 300, 300, 300]
+  prompt: "Find the maximum flow between two nodes in a directed graph. 
+  In a directed graph, (i->j,k) means that node i and node j are connected with an directed edge from node i to node j with weight k. 
+  Given a graph and a pair of nodes, you need to output the maximum flow between the two nodes.
+  Q: The nodes are numbered from {} to {}, and the edges are: {}. What is the maximum flow from node {} to node {}?"
+  answer: "### {}"
+  store_path: "../datasets/train_set/flow_train.json"
+  GPT_prompt: "Find the maximum flow between two nodes in a directed graph.
+  In a directed graph, (i->j,k) means that node i and node j are connected with an directed edge from node i to node j with weight k.
+  Given a graph and a pair of nodes, you need to output the maximum flow between the two nodes.
+  Your output first contains your reasoning process and then begin with '###' to give your final answer, i.e., '### 1' or '### 2'. Let's think step by step.
+  I will provide some examples for your better understanding.
+  {} Q: The nodes are numbered from {} to {}, and the edges are: {}. What is the maximum flow from node {} to node {}? Output the maximum flow. Begin with '###' to give your final conclusion."
+
+hamilton_train: &hamilton_train
+  min_nodes: [2, 10, 20, 30, 40]
+  max_nodes: [10, 20, 30, 40, 50]
+  max_edges: [500, 500, 500, 500, 500]
+  min_ratio: [0.6, 0.6, 0.6, 0.4, 0.3]
+  max_ratio: [0.8, 0.8, 0.8, 0.6, 0.4]
+  weight: [False, False, False, False, False]
+  directed: [False, False, False, False, False]
+  samples_needed: [1600, 500, 300, 300, 300]
+  prompt: "Determine whether or not there is a Hamiltonian path in an undirected graph. 
+  In an undirected graph, (i,j) means that node i and node j are connected with an undirected edge. 
+  Given a graph, you need to output Yes or No, indicating whether there is a Hamiltonian path in the graph.
+  Q: The nodes are numbered from {} to {}, and the edges are: {}. Is there a Hamiltonian path in this graph?"
+  answer: "### {}"
+  store_path: "../datasets/train_set/hamilton_train.json"
+  GPT_prompt: "Determine whether or not there is a Hamiltonian path in an undirected graph.
+  In an undirected graph, (i,j) means that node i and node j are connected with an undirected edge.
+  Given a graph, you need to output Yes or No, indicating whether there is a Hamiltonian path in the graph.
+  Your output first contains your reasoning process and then begin with '###' to give your final answer, i.e., '### Yes' or '### No'. Let's think step by step.
+  I will provide some examples for your better understanding.
+  {} Q: The nodes are numbered from {} to {}, and the edges are: {}. Is there a Hamiltonian path in this graph? Output Yes or No. Begin with '###' to give your final conclusion."
+
+substructure_train: &substructure_train
+  min_nodes: [2, 10, 20, 30, 40]
+  max_nodes: [10, 20, 30, 40, 50]
+  max_edges: [500, 500, 500, 500, 500]
+  min_ratio: [0.2, 0.1, 0.1, 0.1, 0.1]
+  max_ratio: [0.8, 0.5, 0.5, 0.5, 0.5]
+  weight: [False, False, False, False, False]
+  directed: [True, True, True, True, True]
+  samples_needed: [1600, 500, 300, 300, 300]
+  prompt: "Determine if a smaller graph is present as an exact match within a larger graph. 
+  In a directed graph, (i->j) means that node i and node j are connected with a directed edge from node i to node j.
+  Given a graph G and a subgraph G', you need to output Yes or No, indicating whether subgraph G' is present within the directed graph G.
+  Q: The nodes of graph G are numbered from {} to {}, and the edges are: {}.
+  The nodes of subgraph G' are numbered from {} to {}, and the edges are: {}.
+  Is subgraph G' present within graph G as a direct substructure?"
+  # prompt: "Determine if a directed subgraph g exists within a directed graph G as an exact match.
+  # In a directed graph, (i->j) means that node i and node j are connected with a directed edge from node i to node j.
+  # Given a graph G and a subgraph g, you need to output Yes or No, indicating whether subgraph g is present within graph G as a complete structure.
+  # Q: The nodes of graph G are numbered from {} to {}, and the edges are: {}.
+  # The nodes of subgraph g are numbered from {} to {}, and the edges are: {}.
+  # For a 'Yes' answer, all edges of subgraph g must be found as a connected component in graph G.
+  # Does subgraph g exist within graph G as a direct substructure without any additional or missing edges?"
+  answer: "### {}"
+  store_path: "../datasets/train_set/substructure_train.json"
+  GPT_prompt: "Determine the number of occurrences of a directed subgraph g within a directed graph G.
+  In a directed graph, (i->j) means that node i and node j are connected with a directed edge from node i to node j.
+  Given a graph G and a subgraph g, you need to output the number of occurrences of g in G.
+  Your output first contains your reasoning process and then begin with '###' to give your final answer, i.e., '### 1' or '### 2'. Let's think step by step.
+  I will provide some examples for your better understanding.
+  {} Q: The nodes of graph G are numbered from {} to {}, and the edges are: {}. The nodes of subgraph g are numbered from {} to {}, and the edges are: {}. How many times does subgraph g occur in graph G? Output the number of occurrences. Begin with '###' to give your final conclusion."
+
+triplet_train: &triplet_train
+  min_nodes: [2, 5, 10, 15, 20]
+  max_nodes: [5, 10, 15, 20, 25]
+  max_edges: [500, 500, 500, 500, 500]
+  min_ratio: [0.4, 0.1, 0.08, 0.06, 0.04]
+  max_ratio: [0.6, 0.2, 0.12, 0.08, 0.07]
+  weight: [True, True, True, True, True]
+  directed: [False, False, False, False, False]
+  samples_needed: [1600, 500, 300, 300, 300]
+  prompt: "Find the maximum sum of the weights of three interconnected nodes. 
+  In an undirected graph, [i, k] means that node i has the weight k. (i,j) means that node i and node j are connected with an undirected edge.
+  Given a graph, you need to output the maximum sum of the weights of three interconnected nodes. 
+  Q: The nodes are numbered from {} to {}, weights of nodes are: {}, and the edges are: {}. What is the maximum sum of the weights of three nodes?"
+  answer: "### {}"
+  store_path: "../datasets/train_set/triplet_train.json"
+  GPT_prompt: "Find the maximum sum of the weights of three interconnected nodes.
+  In an undirected graph, [i, k] means that node i has the weight k. (i,j) means that node i and node j are connected with an undirected edge.
+  Given a graph, you need to output the maximum sum of the weights of three interconnected nodes.
+  Your output first contains your reasoning process and then begin with '###' to give your final answer, i.e., '### 1' or '### 2'. Let's think step by step.
+  I will provide some examples for your better understanding.
+  {} Q: The nodes are numbered from {} to {}, weights of nodes are: {}, and the edges are: {}. What is the maximum sum of the weights of three nodes? Output the total weight of the triplet. Begin with '###' to give your final conclusion."
+  
+
+topology_train: &topology_train
+  min_nodes: [2, 10, 20, 30, 40]
+  max_nodes: [10, 20, 30, 40, 50]
+  max_edges: [500, 500, 500, 500, 500]
+  min_ratio: [0.4, 0.4, 0.4, 0.3, 0.2]
+  max_ratio: [0.9, 0.9, 0.9, 0.9, 0.9]
+  weight: [False, False, False, False, False]
+  directed: [True, True, True, True, True]
+  samples_needed: [1600, 500, 300, 300, 300]
+  prompt: "Find one of the topology sorting paths of the given graph.
+  In a directed graph, (i->j) means that node i and node j are connected with a directed edge from node i to node j. 
+  Given a graph, you need to output one of the topology sorting paths of the graph.
+  Q: The nodes are numbered from {} to {}, and the edges are: {}. Give one topology sorting path of this graph."
+  answer: "### {}"
+  store_path: "../datasets/train_set/topology_train.json"
+  GPT_prompt: "Find one of the topology sorting paths of the given graph.
+  In a directed graph, (i->j) means that node i and node j are connected with a directed edge from node i to node j.
+  Given a graph, you need to output one of the topology sorting paths of the graph.
+  Your output first contains your reasoning process and then begin with '###' to give your final answer, i.e., '### [1, 2, 3, 4]' or '### [4, 3, 2, 1]'. Let's think step by step.
+  I will provide some examples for your better understanding.
+  {} Q: The nodes are numbered from {} to {}, and the edges are: {}. Give one topology sorting path of this graph. Output only the path, with the format of list of indexes. Begin with '###' to give your final conclusion."
+
+
+connectivity_test: &connectivity_test
+  min_nodes: [2, 20, 40, 60, 80]
+  max_nodes: [20, 40, 60, 80, 100]
+  max_edges: [500, 500, 500, 500, 500]
+  min_ratio: [0.2, 0.07, 0.03, 0.02, 0.02]
+  max_ratio: [0.4, 0.09, 0.05, 0.04, 0.03]
+  weight: [False, False, False, False, False]
+  directed: [False, False, False, False, False]
+  samples_needed: [200, 400, 600, 400, 400]
+  prompt: "Determine whether two nodes are connected in an undirected graph. 
+  In an undirected graph, (i,j) means that node i and node j are connected with an undirected edge.
+  Given a graph and a pair of nodes, you need to output Yes or No, indicating whether the node i and node j are connected. 
+  Q: The nodes are numbered from {} to {}, and the edges are: {}. Is there a path between node {} and node {}?"
+  answer: "### {}"
+  store_path: "../datasets/test_set/connectivity_test.json"
+
+
+cycle_test: &cycle_test
+  min_nodes: [2, 20, 40, 60, 80]
+  max_nodes: [20, 40, 60, 80, 100]
+  max_edges: [500, 500, 500, 500, 500]
+  min_ratio: [0.01, 0.01, 0.01, 0.01, 0.01]
+  max_ratio: [1, 0.2, 0.2, 0.1, 0.05]
+  weight: [False, False, False, False, False]
+  directed: [False, False, False, False, False]
+  samples_needed: [200, 400, 600, 400, 400]
+  prompt: "Determine whether or not there is a cycle in an undirected graph. 
+  In an undirected graph, (i,j) means that node i and node j are connected with an undirected edge. 
+  Given a graph, you need to output Yes or No, indicating whether there is a cycle in the graph.
+  Q: The nodes are numbered from {} to {}, and the edges are: {}. Is there a cycle in this graph?" 
+  answer: "### {}"
+  store_path: "../datasets/test_set/cycle_test.json"
+
+
+shortest_test: &shortest_test
+  min_nodes: [2, 20, 40, 60, 80]
+  max_nodes: [20, 40, 60, 80, 100]
+  max_edges: [500, 500, 500, 500, 500]
+  min_ratio: [0.2, 0.1, 0.05, 0.04, 0.03]
+  max_ratio: [0.5, 0.2, 0.15, 0.12, 0.1]
+  weight: [True, True, True, True, True]
+  directed: [False, False, False, False, False]
+  samples_needed: [200, 400, 600, 400, 400]
+  prompt: "Find the shortest path between two nodes in an undirected graph.
+  In an undirected graph, (i,j,k) means that node i and node j are connected with an undirected edge with weight k. 
+  Given a graph and a pair of nodes, you need to output the shortest path between the two nodes.
+  Q: The nodes are numbered from {} to {}, and the edges are: {}. Give the weight of the shortest path from node {} to node {}."
+  answer: "### {}"
+  store_path: "../datasets/test_set/shortest_test.json"
+
+
+bipartite_test: &bipartite_test
+  min_nodes: [2, 20, 40, 60, 80]
+  max_nodes: [20, 40, 60, 80, 100]
+  max_edges: [500, 500, 500, 500, 500]
+  min_ratio: [0.35, 0.2, 0.15, 0.1, 0.05]
+  max_ratio: [0.7, 0.6, 0.5, 0.5, 0.4]
+  weight: [False, False, False, False, False]
+  directed: [True, True, True, True, True]
+  samples_needed: [200, 400, 600, 400, 400]
+  prompt: "Determine whether or not a graph is bipartite. 
+  In a directed graph, (i->j) means that node i and node j are connected with an directed edge from node i to node j.
+  Given a graph, you need to output Yes or No, indicating whether the graph is bipartite. 
+  Q: The nodes are numbered from {} to {}, and the edges are: {}. Is this graph bipartite?"
+  answer: "### {}"
+  store_path: "../datasets/test_set/bipartite_test.json"
+
+
+flow_test: &flow_test
+  min_nodes: [2, 10, 20, 30, 40]
+  max_nodes: [10, 20, 30, 40, 50]
+  max_edges: [500, 500, 500, 500, 500]
+  min_ratio: [0.1, 0.05, 0.05, 0.05, 0.03]
+  max_ratio: [0.4, 0.2, 0.15, 0.15, 0.12]
+  weight: [True, True, True, True, True]
+  directed: [True, True, True, True, True]
+  samples_needed: [200, 400, 600, 400, 400]
+  prompt: "Find the maximum flow between two nodes in a directed graph. 
+  In a directed graph, (i->j,k) means that node i and node j are connected with an directed edge from node i to node j with weight k. 
+  Given a graph and a pair of nodes, you need to output the maximum flow between the two nodes.
+  Q: The nodes are numbered from {} to {}, and the edges are: {}. What is the maximum flow from node {} to node {}?"
+  answer: "### {}"
+  store_path: "../datasets/test_set/flow_test.json"
+
+
+triplet_test: &triplet_test
+  min_nodes: [2, 5, 10, 15, 20]
+  max_nodes: [5, 10, 15, 20, 25]
+  max_edges: [500, 500, 500, 500, 500]
+  min_ratio: [0.3, 0.08, 0.06, 0.05, 0.04]
+  max_ratio: [0.6, 0.2, 0.2, 0.2, 0.2]
+  weight: [True, True, True, True, True]
+  directed: [False, False, False, False, False]
+  samples_needed: [200, 400, 600, 400, 400]
+  prompt: "Find the maximum sum of the weights of three interconnected nodes. 
+  In an undirected graph, [i, k] means that node i has the weight k. (i,j) means that node i and node j are connected with an undirected edge.
+  Given a graph, you need to output the maximum sum of the weights of three interconnected nodes. 
+  Q: The nodes are numbered from {} to {}, weights of nodes are: {}, and the edges are: {}. What is the maximum sum of the weights of three nodes?"
+  answer: "### {}"
+  store_path: "../datasets/test_set/triplet_test.json"
+
+
+hamilton_test: &hamilton_test
+  min_nodes: [2, 10, 20, 30, 40]
+  max_nodes: [10, 20, 30, 40, 50]
+  max_edges: [500, 500, 500, 500, 500]
+  min_ratio: [0.5, 0.4, 0.4, 0.3, 0.2]
+  max_ratio: [0.8, 0.8, 0.8, 0.6, 0.4]
+  weight: [False, False, False, False, False]
+  directed: [False, False, False, False, False]
+  samples_needed: [200, 400, 600, 400, 400]
+  prompt: "Determine whether or not there is a Hamiltonian path in an undirected graph. 
+  In an undirected graph, (i,j) means that node i and node j are connected with an undirected edge. 
+  Given a graph, you need to output Yes or No, indicating whether there is a Hamiltonian path in the graph.
+  Q: The nodes are numbered from {} to {}, and the edges are: {}. Is there a Hamiltonian path in this graph?"
+  answer: "### {}"
+  store_path: "../datasets/test_set/hamilton_test.json"
+
+
+topology_test: &topology_test
+  min_nodes: [2, 10, 20, 30, 40]
+  max_nodes: [10, 20, 30, 40, 50]
+  max_edges: [500, 500, 500, 500, 500]
+  min_ratio: [0.4, 0.4, 0.4, 0.3, 0.2]
+  max_ratio: [0.9, 0.9, 0.9, 0.9, 0.9]
+  weight: [False, False, False, False, False]
+  directed: [True, True, True, True, True]
+  samples_needed: [200, 400, 600, 400, 400]
+  prompt: "Find one of the topology sorting paths of the given graph.
+  In a directed graph, (i->j) means that node i and node j are connected with a directed edge from node i to node j. 
+  Given a graph, you need to output one of the topology sorting paths of the graph.
+  Q: The nodes are numbered from {} to {}, and the edges are: {}. Give one topology sorting path of this graph."
+  answer: "### {}"
+  store_path: "../datasets/test_set/topology_test.json"
+
+
+substructure_test: &substructure_test
+  min_nodes: [2, 10, 15, 20, 25]
+  max_nodes: [10, 15, 20, 25, 30]
+  max_edges: [500, 500, 500, 500, 500]
+  min_ratio: [0.2, 0.1, 0.1, 0.1, 0.1]
+  max_ratio: [0.8, 0.6, 0.6, 0.6, 0.6]
+  weight: [False, False, False, False, False]
+  directed: [True, True, True, True, True]
+  samples_needed: [200, 400, 600, 400, 400]
+  prompt: "Determine if a smaller graph is present as an exact match within a larger graph. 
+  In a directed graph, (i->j) means that node i and node j are connected with a directed edge from node i to node j.
+  Given a graph G and a subgraph G', you need to output Yes or No, indicating whether subgraph G' is present within the directed graph G.
+  Q: The nodes of graph G are numbered from {} to {}, and the edges are: {}.
+  The nodes of subgraph G' are numbered from {} to {}, and the edges are: {}.
+  Is subgraph G' present within graph G as a direct substructure?"
+  answer: "### {}"
+  store_path: "../datasets/test_set/substructure_test.json"
+
+
+connectivity_train_v2: &connectivity_train_v2
+  min_nodes: [2, 20, 40, 60, 80]
+  max_nodes: [20, 40, 60, 80, 100]
+  max_edges: [500, 500, 500, 500, 500]
+  min_ratio: [0.2, 0.07, 0.03, 0.02, 0.02]
+  max_ratio: [0.4, 0.09, 0.05, 0.04, 0.03]
+  weight: [False, False, False, False, False]
+  directed: [False, False, False, False, False]
+  samples_needed: [1600, 500, 300, 300, 300]
+  prompt: "Determine whether two nodes are connected in an undirected graph. 
+  In an undirected graph, (i,j) means that node i and node j are connected with an undirected edge.
+  Given a graph and a pair of nodes, you need to output Yes or No, indicating whether the node i and node j are connected. 
+  Q: The nodes are numbered from {} to {}, and the edges are: {}. Is there a path between node {} and node {}?"
+  answer: "### {}"
+  store_path: "../datasets/train_set_v2/connectivity_train.json"
+
+
+cycle_train_v2: &cycle_train_v2
+  min_nodes: [2, 20, 40, 60, 80]
+  max_nodes: [20, 40, 60, 80, 100]
+  max_edges: [500, 500, 500, 500, 500]
+  min_ratio: [0.01, 0.01, 0.01, 0.01, 0.01]
+  max_ratio: [1, 0.2, 0.2, 0.1, 0.05]
+  weight: [False, False, False, False, False]
+  directed: [False, False, False, False, False]
+  samples_needed: [1600, 500, 300, 300, 300]
+  prompt: "Determine whether or not there is a cycle in an undirected graph. 
+  In an undirected graph, (i,j) means that node i and node j are connected with an undirected edge. 
+  Given a graph, you need to output Yes or No, indicating whether there is a cycle in the graph.
+  Q: The nodes are numbered from {} to {}, and the edges are: {}. Is there a cycle in this graph?" 
+  answer: "### {}"
+  store_path: "../datasets/train_set_v2/cycle_train.json"
+
+
+triplet_train_v2: &triplet_train_v2
+  min_nodes: [2, 5, 10, 15, 20]
+  max_nodes: [5, 10, 15, 20, 25]
+  max_edges: [500, 500, 500, 500, 500]
+  min_ratio: [0.3, 0.08, 0.06, 0.05, 0.04]
+  max_ratio: [0.6, 0.2, 0.2, 0.2, 0.2]
+  weight: [True, True, True, True, True]
+  directed: [False, False, False, False, False]
+  samples_needed: [1600, 500, 300, 300, 300]
+  prompt: "Find the maximum sum of the weights of three interconnected nodes. 
+  In an undirected graph, [i, k] means that node i has the weight k. (i,j) means that node i and node j are connected with an undirected edge.
+  Given a graph, you need to output the maximum sum of the weights of three interconnected nodes. 
+  Q: The nodes are numbered from {} to {}, weights of nodes are: {}, and the edges are: {}. What is the maximum sum of the weights of three nodes?"
+  answer: "### {}"
+  store_path: "../datasets/train_set_v2/triplet_train.json"
+
+
+flow_train_v2: &flow_train_v2
+  min_nodes: [2, 20, 40, 60, 80]
+  max_nodes: [20, 40, 60, 80, 100]
+  max_edges: [500, 500, 500, 500, 500]
+  min_ratio: [0.1, 0.1, 0.05, 0.04, 0.03]
+  max_ratio: [0.4, 0.2, 0.12, 0.08, 0.07]
+  weight: [True, True, True, True, True]
+  directed: [True, True, True, True, True]
+  samples_needed: [1600, 500, 300, 300, 300]
+  prompt: "Find the maximum flow between two nodes in a directed graph. 
+  In a directed graph, (i->j,k) means that node i and node j are connected with an directed edge from node i to node j with weight k. 
+  Given a graph and a pair of nodes, you need to output the maximum flow between the two nodes.
+  Q: The nodes are numbered from {} to {}, and the edges are: {}. What is the maximum flow from node {} to node {}?"
+  answer: "### {}"
+  store_path: "../datasets/train_set_v2/flow_train_116.json"
+
+
+substructure_train_v2: &substructure_train_v2
+  min_nodes: [2, 10, 15, 20, 25]
+  max_nodes: [10, 15, 20, 25, 30]
+  max_edges: [500, 500, 500, 500, 500]
+  min_ratio: [0.2, 0.1, 0.1, 0.1, 0.1]
+  max_ratio: [0.8, 0.5, 0.5, 0.5, 0.5]
+  weight: [False, False, False, False, False]
+  directed: [True, True, True, True, True]
+  samples_needed: [1600, 500, 300, 300, 300]
+  prompt: "Determine if a smaller graph is present as an exact match within a larger graph. 
+  In a directed graph, (i->j) means that node i and node j are connected with a directed edge from node i to node j.
+  Given a graph G and a subgraph G', you need to output Yes or No, indicating whether subgraph G' is present within the directed graph G.
+  Q: The nodes of graph G are numbered from {} to {}, and the edges are: {}.
+  The nodes of subgraph G' are numbered from {} to {}, and the edges are: {}.
+  Is subgraph G' present within graph G as a direct substructure?"
+  answer: "### {}"
+  store_path: "../datasets/train_set_v2/substructure_train.json"
+
+# connectivity_probing: &connectivity_probing
+#   min_nodes: [2, 2, 2, 10, 10, 10, 20, 20, 20, 30, 30, 40, 40, 50, 50, 60, 70, 80, 90]
+#   max_nodes: [10, 10, 10, 20, 20, 20, 30, 30, 30, 40, 40, 50, 50, 60, 60, 70, 80, 90, 100]
+#   max_edges: [500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500]
+#   min_ratio: [0.01, 0.4, 0.7, 0.01, 0.4, 0.7, 0.01, 0.4, 0.7, 0.01, 0.4, 0.01, 0.4, 0.01, 0.4, 0.01, 0.01, 0.01, 0.01]
+#   max_ratio: [0.4, 0.7, 1, 0.4, 0.7, 1, 0.4, 0.7, 1, 0.4, 0.7, 0.4, 0.7, 0.4, 0.7, 0.1, 0.1, 0.1, 0.1]
+#   weight: [False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]
+#   directed: [False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]
+#   samples_needed: [50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50]
+#   prompt: "Determine whether two nodes are connected in an undirected graph. 
+#   In an undirected graph, (i,j) means that node i and node j are connected with an undirected edge.
+#   Given a graph and a pair of nodes, you need to output Yes or No, indicating whether the node i and node j are connected. 
+#   Q: The nodes are numbered from {} to {}, and the edges are: {}. Is there a path between node {} and node {}?"
+#   answer: "### {}"
+#   store_path: "../datasets/probing_test/connectivity_test.json"
+
+connectivity_probing: &connectivity_probing
+  min_nodes: [60, 70, 80, 90, 2, 2, 2, 10, 10, 10, 20, 20, 20, 30, 30, 40, 40, 50]
+  max_nodes: [70, 80, 90, 100, 10, 10, 10, 20, 20, 20, 30, 30, 30, 40, 40, 50, 50, 60]
+  max_edges: [1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000]
+  min_ratio: [0, 0, 0, 0, 0, 0.4, 0.7, 0, 0.4, 0.7, 0, 0.4, 0.7, 0, 0.4, 0, 0.4, 0]
+  max_ratio: [0.4, 0.4, 0.4, 0.4, 0.4, 0.7, 1, 0.4, 0.7, 1, 0.4, 0.7, 1, 0.4, 0.7, 0.4, 0.7, 0.4]
+  weight: [False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]
+  directed: [True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True]
+  samples_needed: [50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50]
+  prompt: "Determine whether two nodes are connected in an undirected graph. 
+  In an undirected graph, (i,j) means that node i and node j are connected with an undirected edge.
+  Given a graph and a pair of nodes, you need to output Yes or No, indicating whether the node i and node j are connected. 
+  Q: The nodes are numbered from {} to {}, and the edges are: {}. Is there a path between node {} and node {}?"
+  answer: "### {}"
+  store_path: "../datasets/probing_test/connectivity_test.json"
+
+cycle_probing: &cycle_probing
+  min_nodes: [60, 70, 80, 90, 2, 2, 2, 10, 10, 10, 20, 20, 20, 30, 30, 40, 40, 50]
+  max_nodes: [70, 80, 90, 100, 10, 10, 10, 20, 20, 20, 30, 30, 30, 40, 40, 50, 50, 60]
+  max_edges: [1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000]
+  min_ratio: [0, 0, 0, 0, 0, 0.4, 0.7, 0, 0.4, 0.7, 0, 0.4, 0.7, 0, 0.4, 0, 0.4, 0]
+  max_ratio: [0.4, 0.4, 0.4, 0.4, 0.4, 0.7, 1, 0.4, 0.7, 1, 0.4, 0.7, 1, 0.4, 0.7, 0.4, 0.7, 0.4]
+  weight: [False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]
+  directed: [True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True]
+  samples_needed: [50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50]
+  prompt: "Determine whether or not there is a cycle in an undirected graph. 
+  In an undirected graph, (i,j) means that node i and node j are connected with an undirected edge. 
+  Given a graph, you need to output Yes or No, indicating whether there is a cycle in the graph.
+  Q: The nodes are numbered from {} to {}, and the edges are: {}. Is there a cycle in this graph?" 
+  answer: "### {}"
+  store_path: "../datasets/probing_test/cycle_test.json"
+
+
+shortest_probing: &shortest_probing
+  min_nodes: [60, 70, 80, 90, 2, 2, 2, 10, 10, 10, 20, 20, 20, 30, 30, 40, 40, 50]
+  max_nodes: [70, 80, 90, 100, 10, 10, 10, 20, 20, 20, 30, 30, 30, 40, 40, 50, 50, 60]
+  max_edges: [1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000]
+  min_ratio: [0, 0, 0, 0, 0, 0.4, 0.7, 0, 0.4, 0.7, 0, 0.4, 0.7, 0, 0.4, 0, 0.4, 0]
+  max_ratio: [0.4, 0.4, 0.4, 0.4, 0.4, 0.7, 1, 0.4, 0.7, 1, 0.4, 0.7, 1, 0.4, 0.7, 0.4, 0.7, 0.4]
+  weight: [False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]
+  directed: [True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True]
+  samples_needed: [50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50]
+  prompt: "Find the shortest path between two nodes in an undirected graph.
+  In an undirected graph, (i,j,k) means that node i and node j are connected with an undirected edge with weight k. 
+  Given a graph and a pair of nodes, you need to output the shortest path between the two nodes.
+  Q: The nodes are numbered from {} to {}, and the edges are: {}. Give the weight of the shortest path from node {} to node {}."
+  answer: "### {}"
+  store_path: "../datasets/probing_test/shortest_test.json"
+
+
+bipartite_probing: &bipartite_probing
+  min_nodes: [60, 70, 80, 90, 2, 2, 2, 10, 10, 10, 20, 20, 20, 30, 30, 40, 40, 50]
+  max_nodes: [70, 80, 90, 100, 10, 10, 10, 20, 20, 20, 30, 30, 30, 40, 40, 50, 50, 60]
+  max_edges: [1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000]
+  min_ratio: [0, 0, 0, 0, 0, 0.4, 0.7, 0, 0.4, 0.7, 0, 0.4, 0.7, 0, 0.4, 0, 0.4, 0]
+  max_ratio: [0.4, 0.4, 0.4, 0.4, 0.4, 0.7, 1, 0.4, 0.7, 1, 0.4, 0.7, 1, 0.4, 0.7, 0.4, 0.7, 0.4]
+  weight: [False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]
+  directed: [True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True]
+  samples_needed: [50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50]
+  prompt: "Determine whether or not a graph is bipartite. 
+  In a directed graph, (i->j) means that node i and node j are connected with an directed edge from node i to node j.
+  Given a graph, you need to output Yes or No, indicating whether the graph is bipartite. 
+  Q: The nodes are numbered from {} to {}, and the edges are: {}. Is this graph bipartite?"
+  answer: "### {}"
+  store_path: "../datasets/probing_test/bipartite_test.json"
+
+
+flow_probing: &flow_probing
+  min_nodes: [2, 2, 2, 5, 5, 5, 10, 10, 10, 15, 15, 20, 20, 25, 30, 35, 40, 45]
+  max_nodes: [5, 5, 5, 10, 10, 10, 15, 15, 15, 20, 20, 25, 25, 30, 35, 40, 45, 50]
+  max_edges: [1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000]
+  min_ratio: [0, 0.4, 0.7, 0, 0.4, 0.7, 0, 0.4, 0.7, 0, 0.4, 0, 0.4, 0, 0, 0, 0, 0]
+  max_ratio: [0.4, 0.7, 1, 0.4, 0.7, 1, 0.4, 0.7, 1, 0.4, 0.7, 0.4, 0.7, 0.4, 0.4, 0.4, 0.4, 0.4]
+  weight: [True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True]
+  directed: [True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True]
+  samples_needed: [50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50]
+  prompt: "Find the maximum flow between two nodes in a directed graph. 
+  In a directed graph, (i->j,k) means that node i and node j are connected with an directed edge from node i to node j with weight k. 
+  Given a graph and a pair of nodes, you need to output the maximum flow between the two nodes.
+  Q: The nodes are numbered from {} to {}, and the edges are: {}. What is the maximum flow from node {} to node {}?"
+  answer: "### {}"
+  store_path: "../datasets/probing_test/flow_test.json"
+
+
+topology_probing: &topology_probing
+  min_nodes: [2, 2, 2, 5, 5, 5, 10, 10, 10, 15, 15, 20, 20, 25, 30, 35, 40, 45]
+  max_nodes: [5, 5, 5, 10, 10, 10, 15, 15, 15, 20, 20, 25, 25, 30, 35, 40, 45, 50]
+  max_edges: [1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000]
+  min_ratio: [0, 0.4, 0.7, 0, 0.4, 0.7, 0, 0.4, 0.7, 0, 0.4, 0, 0.4, 0, 0, 0, 0, 0]
+  max_ratio: [0.4, 0.7, 1, 0.4, 0.7, 1, 0.4, 0.7, 1, 0.4, 0.7, 0.4, 0.7, 0.4, 0.4, 0.4, 0.4, 0.4]
+  weight: [False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]
+  directed: [True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True]
+  samples_needed: [50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50]
+  prompt: "Find one of the topology sorting paths of the given graph.
+  In a directed graph, (i->j) means that node i and node j are connected with a directed edge from node i to node j. 
+  Given a graph, you need to output one of the topology sorting paths of the graph.
+  Q: The nodes are numbered from {} to {}, and the edges are: {}. Give one topology sorting path of this graph."
+  answer: "### {}"
+  store_path: "../datasets/probing_test/topology_test.json"
+
+
+hamilton_probing: &hamilton_probing
+  min_nodes: [2, 2, 2, 5, 5, 5, 10, 10, 10, 15, 15, 20, 20, 25, 30, 35, 40, 45]
+  max_nodes: [5, 5, 5, 10, 10, 10, 15, 15, 15, 20, 20, 25, 25, 30, 35, 40, 45, 50]
+  max_edges: [1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000]
+  min_ratio: [0, 0.4, 0.7, 0, 0.4, 0.7, 0, 0.4, 0.7, 0, 0.4, 0, 0.4, 0, 0, 0, 0, 0]
+  max_ratio: [0.4, 0.7, 1, 0.4, 0.7, 1, 0.4, 0.7, 1, 0.4, 0.7, 0.4, 0.7, 0.4, 0.4, 0.4, 0.4, 0.4]
+  weight: [False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]
+  directed: [False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]
+  samples_needed: [50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50]
+  prompt: "Determine whether or not there is a Hamiltonian path in an undirected graph. 
+  In an undirected graph, (i,j) means that node i and node j are connected with an undirected edge. 
+  Given a graph, you need to output Yes or No, indicating whether there is a Hamiltonian path in the graph.
+  Q: The nodes are numbered from {} to {}, and the edges are: {}. Is there a Hamiltonian path in this graph?"
+  answer: "### {}"
+  store_path: "../datasets/probing_test/hamilton_test.json"
+
+
+triplet_probing: &triplet_probing
+  min_nodes: [2, 2, 2, 5, 5, 5, 10, 10, 10, 15, 15, 20, 20, 25, 30, 35, 40, 45]
+  max_nodes: [5, 5, 5, 10, 10, 10, 15, 15, 15, 20, 20, 25, 25, 30, 35, 40, 45, 50]
+  max_edges: [1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000]
+  min_ratio: [0, 0.4, 0.7, 0, 0.4, 0.7, 0, 0.4, 0.7, 0, 0.4, 0, 0.4, 0, 0, 0, 0, 0]
+  max_ratio: [0.4, 0.7, 1, 0.4, 0.7, 1, 0.4, 0.7, 1, 0.4, 0.7, 0.4, 0.7, 0.4, 0.4, 0.4, 0.4, 0.4]
+  weight: [True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True]
+  directed: [False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]
+  samples_needed: [50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50]
+  prompt: "Find the maximum sum of the weights of three interconnected nodes. 
+  In an undirected graph, [i, k] means that node i has the weight k. (i,j) means that node i and node j are connected with an undirected edge.
+  Given a graph, you need to output the maximum sum of the weights of three interconnected nodes. 
+  Q: The nodes are numbered from {} to {}, weights of nodes are: {}, and the edges are: {}. What is the maximum sum of the weights of three nodes?"
+  answer: "### {}"
+  store_path: "../datasets/probing_test/triplet_train.json"
+
+
+substructure_probing: &substructure_probing
+  min_nodes: [2, 2, 2, 10, 10, 10, 20, 20, 30, 30, 15, 20, 20, 25, 30, 35, 40, 45]
+  max_nodes: [10, 10, 10, 20, 20, 20, 30, 30, 40, 40, 20, 25, 25, 30, 35, 40, 45, 50]
+  max_edges: [1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000]
+  min_ratio: [0, 0.4, 0.7, 0, 0.4, 0.7, 0, 0.4, 0.7, 0, 0.4, 0, 0.4, 0, 0, 0, 0, 0]
+  max_ratio: [0.4, 0.7, 1, 0.4, 0.7, 1, 0.4, 0.7, 1, 0.4, 0.7, 0.4, 0.7, 0.4, 0.4, 0.4, 0.4, 0.4]
+  weight: [False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]
+  directed: [True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True]
+  samples_needed: [50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50]
+  prompt: "Determine if a smaller graph is present as an exact match within a larger graph. 
+  In a directed graph, (i->j) means that node i and node j are connected with a directed edge from node i to node j.
+  Given a graph G and a subgraph G', you need to output Yes or No, indicating whether subgraph G' is present within the directed graph G.
+  Q: The nodes of graph G are numbered from {} to {}, and the edges are: {}.
+  The nodes of subgraph G' are numbered from {} to {}, and the edges are: {}.
+  Is subgraph G' present within graph G as a direct substructure?"
+  answer: "### {}"
+  store_path: "../datasets/probing_test/substructure_test.json"
