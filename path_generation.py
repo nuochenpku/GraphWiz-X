@@ -6,7 +6,7 @@ from queue import Queue
 
 class Generation:
     #problem 0:cycle_detection 1:Connectivity 2:Bipartite_graph_check 3:Topological_sort 4:Shortest_path 5:Maximum_triangle_sum 6:Maximum_flow 7:Hamilton_path 8:Subgraph_matching
-    def __init__(self,problem,G,G2=nx.Graph(),source=-1,target=-1,result={}):
+    def __init__(self,problem,G,G2=None,source=-1,target=-1,result={}):
         self.problem=problem
         self.G=G
         self.G2=G2
@@ -40,7 +40,8 @@ class Generation:
     
     
     def generate_path(self):
-        if(problem==0): #cycle detection
+        problem=self.problem
+        if problem==0: #cycle detection
             try:
                 cycles = nx.simple_cycles(self.G)
                 cycles_list = [cycle for cycle in cycles]
@@ -51,7 +52,7 @@ class Generation:
             
             return self.result
        
-        if(problem==1):      #conectivity     
+        if problem==1:      #conectivity     
             source = self.source
             target = self.target
             try:
@@ -68,7 +69,7 @@ class Generation:
             return self.result
 
         
-        if(problem==2): #bipartite graph check
+        if problem==2: #bipartite graph check
             if bipartite.is_bipartite(self.G):
                 print("The graph is bipartite.")
                 partitions=nx.bipartite.sets(self.G)
@@ -115,7 +116,7 @@ class Generation:
                                     return self.result
                                    
                             
-        if(problem==3): #toplogical sort
+        if problem==3: #toplogical sort
             try:
                 toplogical_orders = nx.all_topological_sorts(self.G)
                 toplogical_orders_list = [toplogical_order for toplogical_order in toplogical_orders]
@@ -127,7 +128,7 @@ class Generation:
 
 
         
-        if(problem==4): #shortest path
+        if problem==4: #shortest path
             source = self.source
             target = self.target
             try:
@@ -147,7 +148,7 @@ class Generation:
 
            
         
-        if(problem==5): #maximum triangle sum
+        if problem==5: #maximum triangle sum
             
             cycles = nx.simple_cycles(self.G,length_bound=3)
             triangles=[]
@@ -177,7 +178,7 @@ class Generation:
 
 
         
-        if(problem==6): #maximum flow
+        if problem==6: #maximum flow
             source = self.source
             target = self.target
             try:
@@ -192,7 +193,7 @@ class Generation:
             return self.result
 
         
-        if(problem==7): #hamiltonian path
+        if problem==7: #hamiltonian path
             all_hamiltonian_cycles = []
             all_hamiltonian_cycles= self.hamiltonian_cycles(self.G)                 
             
@@ -200,7 +201,7 @@ class Generation:
             print("All Hamiliton_paths:")
             return self.result
             
-        if(problem==8): #isochromatic
+        if problem==8: #isochromatic
             GM = isomorphism.GraphMatcher(self.G, self.G2)
             self.result['is_isochormatic']=GM.is_isomorphic()
             return self.result
